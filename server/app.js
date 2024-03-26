@@ -1,5 +1,17 @@
 const express = require('express');
+const path = require("path");
+require("express-async-errors");
 const app = express();
+
+
+// serving static files 
+app.use("/static",express.static(path.join(__dirname,"assets")))
+
+
+// parsing body as JSON
+app.use(express.json())
+
+
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
@@ -10,7 +22,9 @@ app.get('/', (req, res) => {
 app.post('/test-json', (req, res, next) => {
   // send the body as JSON with a Content-Type header of "application/json"
   // finishes the response, res.end()
+
   res.json(req.body);
+ 
   next();
 });
 
