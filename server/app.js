@@ -11,7 +11,14 @@ app.use("/static",express.static(path.join(__dirname,"assets")))
 // parsing body as JSON
 app.use(express.json())
 
-
+app.use((req,res,next)=> {
+  console.log(` request method: ${req.method}`)
+  console.log(` URL PATH: ${req.url}`)
+  res.on("finish", () => {
+    console.log(` response statusCode: ${res.statusCode}`)
+  })
+  next()
+})
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
@@ -31,6 +38,15 @@ app.post('/test-json', (req, res, next) => {
 // For testing express-async-errors
 app.get('/test-error', async (req, res) => {
   throw new Error("Hello World!")
+});
+
+app.use((req, res, next) => {
+  // Create a new error with a status code of 404 and an error message
+  const error = new Error("Resource not found");
+  error.statusCode = 404;
+
+  // Pass the error to the next middleware if no route matches the request
+  next(error);
 });
 
 const port = 5000;
