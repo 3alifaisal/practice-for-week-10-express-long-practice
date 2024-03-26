@@ -87,7 +87,9 @@ const deleteDog = (req, res) => {
 // Your code here
 const router = express.Router();
 
+const nestedRouter = require("./dog-foods");
 
+router.use("/foods",validateDogId,nestedRouter);
 
 router.get("/:dogId",validateDogId,getDogById)
 

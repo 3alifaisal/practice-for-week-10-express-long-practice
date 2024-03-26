@@ -60,3 +60,17 @@ const createFood = (req, res) => {
 // ------------------------------  ROUTER ------------------------------  
 
 // Your code here
+const express = require("express");
+
+const nestedRouter = express.Router({ mergeParams: true });
+
+nestedRouter.get("/",getFoodsByDogId);
+
+nestedRouter.post("/",validateFoodInfo,createFood);
+
+
+
+
+
+
+module.exports = nestedRouter;
